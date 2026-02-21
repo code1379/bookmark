@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Bookmark Modal</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#136dec",
+                "background-light": "#f6f7f8",
+                "background-dark": "#101822",
+                "surface-dark": "#1c2430",
+                },
+                fontFamily: {
+                "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for clean look */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c2430; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex items-center justify-center p-4">
+<!-- Mock Background Content (Blurred/Dimmed) -->
+<div aria-hidden="true" class="fixed inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
+<div class="grid grid-cols-4 gap-4 p-8">
+<div class="h-32 bg-slate-800 rounded-lg"></div>
+<div class="h-32 bg-slate-800 rounded-lg"></div>
+<div class="h-32 bg-slate-800 rounded-lg"></div>
+<div class="h-32 bg-slate-800 rounded-lg"></div>
+<div class="col-span-2 h-64 bg-slate-800 rounded-lg"></div>
+<div class="col-span-2 h-64 bg-slate-800 rounded-lg"></div>
+</div>
+</div>
+<!-- Modal Overlay -->
+<div aria-modal="true" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" role="dialog">
+<!-- Modal Container -->
+<div class="w-full max-w-lg bg-white dark:bg-[#151c26] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transform transition-all">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-6 py-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#151c26]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">bookmark_add</span>
+</div>
+<h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Add New Bookmark</h3>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<!-- Modal Content (Form) -->
+<div class="p-6 space-y-5">
+<!-- URL Field (Autofocused in theory) -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="url-input">
+                        URL <span class="text-red-500">*</span>
+</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[20px]">link</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#1c2430] border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="url-input" placeholder="https://example.com" required="" type="url"/>
+</div>
+</div>
+<!-- Name Field -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="name-input">
+                        Name
+                    </label>
+<input class="w-full px-4 py-3 bg-slate-50 dark:bg-[#1c2430] border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="name-input" placeholder="e.g. My Favorite Design Blog" type="text"/>
+</div>
+<!-- Category Selector -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="category-select">
+                        Category
+                    </label>
+<div class="relative">
+<select class="w-full appearance-none px-4 py-3 bg-slate-50 dark:bg-[#1c2430] border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all cursor-pointer" id="category-select">
+<option disabled="" selected="" value="">Select a folder</option>
+<option value="design">Design Inspiration</option>
+<option value="dev">Development Tools</option>
+<option value="news">Tech News</option>
+<option value="personal">Personal</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Tags (Optional - Bonus) -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Tags
+                    </label>
+<div class="flex flex-wrap gap-2 p-1">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/30">
+                            Design
+                            <button class="hover:text-white focus:outline-none"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[14px]">add</span>
+                            Add Tag
+                        </button>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="bg-slate-50 dark:bg-[#151c26] px-6 py-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-slate-800">
+<button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+                    Cancel
+                </button>
+<button class="px-5 py-2.5 rounded-lg text-sm font-semibold bg-primary hover:bg-blue-600 text-white shadow-lg shadow-blue-500/30 dark:shadow-blue-900/50 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                    Save Bookmark
+                </button>
+</div>
+</div>
+</div>
+</body></html>

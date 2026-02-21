@@ -1,0 +1,268 @@
+<!doctype html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Bookmarker Login Screen</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+              "surface-dark": "#1c2430",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen"
+  >
+    <div class="flex min-h-screen">
+      <div
+        class="hidden lg:flex w-1/2 bg-slate-900 relative flex-col justify-between p-12 overflow-hidden"
+      >
+        <div
+          class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+        >
+          <div
+            class="absolute right-0 top-1/4 w-96 h-96 bg-primary rounded-full blur-[128px]"
+          ></div>
+          <div
+            class="absolute left-0 bottom-0 w-64 h-64 bg-purple-600 rounded-full blur-[96px]"
+          ></div>
+        </div>
+        <div class="relative z-10 flex items-center gap-3">
+          <div
+            class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-white"
+          >
+            <span class="material-symbols-outlined">bookmarks</span>
+          </div>
+          <h1 class="text-2xl font-bold text-white tracking-tight">
+            Bookmarker
+          </h1>
+        </div>
+        <div class="relative z-10 max-w-lg">
+          <h2 class="text-4xl font-bold text-white mb-6 leading-tight">
+            Organize your digital world in one place.
+          </h2>
+          <p class="text-lg text-slate-400 mb-8">
+            Save, categorize, and access your favorite content from anywhere.
+            Join thousands of productive users today.
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="flex -space-x-3">
+              <img
+                alt="User"
+                class="w-10 h-10 rounded-full border-2 border-slate-900"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_qy1wkzYqt0b7ZrRip0n_l9cppKj0VT1lm8xqGVFJD5Ph1cuR_J9JtADgi5ReafFxP-LsO8nJingUHKP_HcBz8LD-YIsM3leXIHVuVS1oVlkeYmJ3-no3Kf5xGOoclZpdk20iE1uFSVM2JtvpozvCabNGudjqVfP3Q_jDz_F6mPP0ZmoEPJ6Uxc5Arv7kEHJAxsiZts0Wln4zJXTF-Zi7uAcr5MXzRfr051taQkCqZTJdTWSlVbG9ueixlaXY0NQz41F3yx1ojfs"
+              />
+              <img
+                alt="User"
+                class="w-10 h-10 rounded-full border-2 border-slate-900"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqDynrFpsglH-hz-XeqrUFK9_R-D0fA4tjesq8S9tFC8da7TWaodwWzwcPCfds_4X1KGcEWJ46-NHC6GzdA-DMb54zJdhveEWAsQcvOZSTyMz8EgxNxBUi1cvIv18fbVEyNg71DKR1Na3VkaB41A8dD0WooBT2D9bjG1w9pWHsWrBpi3AE9-PD9Tl5WFLOBg0eLm6Bh34eBaCgNeiVWlIkb5o_uNccG2wGAnu7zW5AlOSmEI4UxMk5MUYYiTG6AZ-w-a5y39Yu7ZQ"
+              />
+              <img
+                alt="User"
+                class="w-10 h-10 rounded-full border-2 border-slate-900"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkFRQHt6IdYkfVbzCR-HqrYI7J8hkAjBjhUmkxer-v-p303-yIBtjqWbUfh4-22vb_F5Eg3LQJWiKD-0sB57uB5sqEtunnxTKWTuYN36VUtnj2Khsx0QgCyxdljmS2Hmd7wwp19X48DNmTLs5aV9U84RBIXh-uqSf8Gu-V193EF-Q55OLKvf8b0yYv9qQF_SV7I6-2zkOFXDOb8-vy9N0F6ImcjPjg3d-cgwtjTCitxFMMMgxVQ-YWNsWyO78vIg6w2MlLjh_33cA"
+              />
+              <div
+                class="w-10 h-10 rounded-full border-2 border-slate-900 bg-slate-800 text-white text-xs flex items-center justify-center font-medium"
+              >
+                +2k
+              </div>
+            </div>
+            <span class="text-sm text-slate-400 font-medium"
+              >Join our community</span
+            >
+          </div>
+        </div>
+        <div class="relative z-10 text-sm text-slate-500">
+          © 2024 Bookmarker Inc. All rights reserved.
+        </div>
+      </div>
+      <div
+        class="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white dark:bg-[#101822]"
+      >
+        <div class="w-full max-w-md space-y-8">
+          <div class="text-center lg:text-left">
+            <div class="lg:hidden flex justify-center mb-6">
+              <div
+                class="flex items-center justify-center w-12 h-12 rounded-xl bg-primary text-white"
+              >
+                <span class="material-symbols-outlined text-[28px]"
+                  >bookmarks</span
+                >
+              </div>
+            </div>
+            <h2
+              class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white"
+            >
+              Welcome back
+            </h2>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+              Please enter your details to sign in.
+            </p>
+          </div>
+          <form action="#" class="mt-8 space-y-6" method="POST">
+            <div class="space-y-5">
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                  for="email"
+                  >Email address</label
+                >
+                <div class="mt-1 relative">
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >mail</span
+                    >
+                  </div>
+                  <input
+                    autocomplete="email"
+                    class="appearance-none block w-full pl-10 pr-3 py-3 border border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-[#1c2430] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm transition-all"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    required=""
+                    type="email"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                  for="password"
+                  >Password</label
+                >
+                <div class="mt-1 relative">
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >lock</span
+                    >
+                  </div>
+                  <input
+                    autocomplete="current-password"
+                    class="appearance-none block w-full pl-10 pr-3 py-3 border border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-[#1c2430] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm transition-all"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    required=""
+                    type="password"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <input
+                  class="h-4 w-4 text-primary focus:ring-primary border-slate-300 rounded bg-slate-50 dark:bg-[#1c2430] dark:border-slate-600"
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                />
+                <label
+                  class="ml-2 block text-sm text-slate-600 dark:text-slate-400"
+                  for="remember-me"
+                  >Remember me</label
+                >
+              </div>
+              <div class="text-sm">
+                <a
+                  class="font-medium text-primary hover:text-blue-500 transition-colors"
+                  href="#"
+                  >Forgot password?</a
+                >
+              </div>
+            </div>
+            <div>
+              <button
+                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all shadow-lg shadow-blue-500/30"
+                type="submit"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+          <div class="relative mt-8">
+            <div aria-hidden="true" class="absolute inset-0 flex items-center">
+              <div
+                class="w-full border-t border-slate-200 dark:border-slate-700"
+              ></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span
+                class="px-4 bg-white dark:bg-[#101822] text-slate-500 dark:text-slate-400"
+                >Or continue with</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mt-6">
+            <button
+              class="flex items-center justify-center w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm bg-white dark:bg-[#1c2430] text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 transition-all"
+              type="button"
+            >
+              <img
+                alt="Google logo"
+                class="h-5 w-5 mr-2"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy6Jaqso6daYNsqWa9HdXIF9Z-jFacgo5sVDzhdU0ZmeC1YMlBsovavjhG8sIiDRrcJf6WhtzxqOJc3gH07-sgN4oZsexvzgZS2NYklzxCQsbI0GVywlzf1YjDWhrBI9WAMWCCh4BzHQ_KZXgeeCj7A6gOTNndB2qx4L9DMDDhZiVbu_l0GOitHMl244KqMls3poCQ71QVnqPOtCX2KfrUw9Su5w49kejAlzTLdXuYc6JisjRQb8I-PwxZyVJqxvp3eZwc44A-Ais"
+              />
+              Google
+            </button>
+            <button
+              class="flex items-center justify-center w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm bg-white dark:bg-[#1c2430] text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 transition-all"
+              type="button"
+            >
+              <img
+                alt="Github logo"
+                class="h-5 w-5 mr-2 dark:invert"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiXfmlz5S2Lt-_LSwHHGey02Wm_r4-i0c9kER89NAGSrw0KeIeMSbXxMBxnRtsoB17LQqlUkJIjSGPuH6GvnoY7kxP0aWz0q3RSz4I86k2J6K0BAxAGksqPn21F7wHYMpzu4Wfi9AB5t5yuvNzX-US8CxYKngYo8vBRYVPzb5psDyZ1qJIDVGueTghWTZZ6HKplI4PTjpRrshTiIsPj7YFFLRD-YgO7Qi-SXAJHl8cGj5LAJC4BZ5kTau4Ndo7UbkN-EZ5Qj4td-0"
+              />
+              GitHub
+            </button>
+          </div>
+          <p
+            class="mt-4 text-center text-sm text-slate-600 dark:text-slate-400"
+          >
+            Don't have an account?
+            <a
+              class="font-medium text-primary hover:text-blue-500 transition-colors"
+              href="#"
+              >Sign up for free</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

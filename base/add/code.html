@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Category Bookmarks View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #374151; 
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #4b5563; 
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden h-screen w-screen flex flex-col md:flex-row">
+<div class="w-full md:w-64 lg:w-72 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111418] flex flex-col z-20 shrink-0">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">bookmarks</span>
+</div>
+<span class="font-bold text-lg tracking-tight">Bookmarker</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-4">
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4 px-2">Library</div>
+<nav class="space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">inbox</span>
+<span>All Bookmarks</span>
+<span class="ml-auto text-xs bg-slate-100 dark:bg-slate-800 py-0.5 px-2 rounded-full">142</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">star</span>
+<span>Favorites</span>
+<span class="ml-auto text-xs bg-slate-100 dark:bg-slate-800 py-0.5 px-2 rounded-full">8</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">question_mark</span>
+<span>Uncategorized</span>
+<span class="ml-auto text-xs bg-slate-100 dark:bg-slate-800 py-0.5 px-2 rounded-full">4</span>
+</button>
+</nav>
+<div class="mt-8 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4 px-2 flex justify-between items-center">
+<span>Categories</span>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+<nav class="space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg bg-primary/10 text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px] fill-1">folder</span>
+<span>Design Resources</span>
+<span class="ml-auto text-xs bg-primary text-white py-0.5 px-2 rounded-full">12</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">folder</span>
+<span>Development</span>
+<span class="ml-auto text-xs bg-slate-100 dark:bg-slate-800 py-0.5 px-2 rounded-full">24</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">folder</span>
+<span>Marketing</span>
+<span class="ml-auto text-xs bg-slate-100 dark:bg-slate-800 py-0.5 px-2 rounded-full">6</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">folder</span>
+<span>News &amp; Reading</span>
+<span class="ml-auto text-xs bg-slate-100 dark:bg-slate-800 py-0.5 px-2 rounded-full">18</span>
+</button>
+</nav>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<div class="h-8 w-8 rounded-full bg-slate-300 dark:bg-slate-700 overflow-hidden">
+<img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjaozstT_P9Ws3uFb0Esd4_qVymeH8B-Fgt1CweBq6y4vuOSkZqXIY0Nk-KwwGs4xA-U4hDI84-z6UX7pvhWqQPi25D_H9V3RltTSoeB8ijSlE07w4Du5eEAPKl9fCI6IKebcgxt2Vt8DWord3UwEvM21Hsfq3ovltHIXh4_bR-Csyll3py5ONQjZrgZqidK4kLUZQWtrfbugxJCTWPAa_6u59Nb-9Hr7h5UuFiayFXXzahjAOQo7Qf2eJLyRytcFTD7c5dZhOkGQ"/>
+</div>
+<div class="text-left overflow-hidden">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">Alex Morgan</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Free Plan</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-slate-400">settings</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col h-full bg-slate-50 dark:bg-[#0d1116] overflow-hidden relative">
+<header class="h-16 px-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-[#111418] shrink-0 z-10">
+<div class="flex items-center gap-4 flex-1">
+<h1 class="text-xl font-bold text-slate-900 dark:text-white hidden md:block">Design Resources</h1>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden md:block"></div>
+<div class="relative max-w-md w-full md:w-96 group">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
+</div>
+<input class="block w-full rounded-lg border-0 py-2 pl-10 text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition-all group-hover:bg-white dark:group-hover:bg-slate-700" placeholder="Search in Design Resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3 ml-4">
+<div class="hidden sm:flex items-center rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
+<button class="p-1.5 rounded bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-[20px] block">grid_view</span>
+</button>
+<button class="p-1.5 rounded text-slate-500 hover:text-slate-900 dark:hover:text-white">
+<span class="material-symbols-outlined text-[20px] block">view_list</span>
+</button>
+</div>
+<button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="hidden sm:inline">Add Bookmark</span>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto custom-scrollbar p-6">
+<div class="mb-6 flex items-center justify-between">
+<p class="text-sm text-slate-500 dark:text-slate-400">12 bookmarks</p>
+<div class="flex items-center gap-2 text-sm">
+<span class="text-slate-500">Sort by:</span>
+<select class="bg-transparent border-none text-slate-900 dark:text-white font-medium focus:ring-0 cursor-pointer p-0 pr-6">
+<option>Date Added</option>
+<option>Alphabetical</option>
+<option>Most Used</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-[#282f39] text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">design_services</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Figma</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">The collaborative interface design tool. Create, prototype, and collaborate.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">figma.com/files/project-alpha</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">2h ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-[#ea4c89] text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">sports_basketball</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Dribbble Inspiration</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Discover the world’s top designers &amp; creatives. Inspiration for your next project.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">dribbble.com/shots/popular</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">1d ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-black text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">dataset</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Unsplash</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Beautiful, free images and photos that you can download and use for any project.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">unsplash.com/t/textures-patterns</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">3d ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-[#0A66C2] text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">work</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">LinkedIn Jobs</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Leverage your professional network, and get hired. Search for jobs.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">linkedin.com/jobs/designer</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">1w ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Midjourney Guide</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Detailed documentation and guides for Midjourney AI art generation.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">docs.midjourney.com</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">2w ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-[#F24E1E] text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">brush</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Figma Community</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Explore thousands of free and paid files, plugins, and widgets.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">figma.com/community</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">2w ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+<div class="group relative flex flex-col justify-between rounded-xl bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200">
+<div class="p-5">
+<div class="flex items-start justify-between mb-4">
+<div class="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-emerald-600 text-white ring-1 ring-slate-900/5 dark:ring-white/10">
+<span class="material-symbols-outlined">article</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">UX Collective</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400 line-clamp-2">Curated stories on user experience, visual and product design.</p>
+<a class="mt-2 inline-block text-xs text-slate-400 hover:text-primary hover:underline truncate w-full" href="#">medium.com/ux-collective</a>
+</div>
+<div class="px-5 py-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 rounded-b-xl">
+<span class="text-xs text-slate-400">3w ago</span>
+<a class="text-xs font-medium text-primary hover:text-primary/80" href="#">Launch →</a>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
