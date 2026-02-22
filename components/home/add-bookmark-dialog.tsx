@@ -1,7 +1,8 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 
+import type { BookmarkListItem } from "@/lib/db/repositories/bookmarks";
 import type { CategoryListItem } from "@/lib/db/repositories/categories";
 import {
   Dialog,
@@ -11,11 +12,12 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 
-type AddBookmarkDialogProps = {
+type BookmarkDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   categories: CategoryListItem[];
   onSaved: () => Promise<void>;
+  editingBookmark?: BookmarkListItem | null;
 };
 
 type BookmarkFormState = {
@@ -34,15 +36,18 @@ const emptyBookmarkForm: BookmarkFormState = {
   categoryId: ""
 };
 
-export default function AddBookmarkDialog({
+export default function BookmarkDialog({
   open,
   onOpenChange,
   categories,
-  onSaved
-}: AddBookmarkDialogProps) {
+  onSaved,
+  editingBookmark
+}: BookmarkDialogProps) {
   const [form, setForm] = useState<BookmarkFormState>(emptyBookmarkForm);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isEditMode = Boolean(editingBookmark);
 
   const parsedTags = useMemo(
     () =>
@@ -53,7 +58,22 @@ export default function AddBookmarkDialog({
     [form.tags]
   );
 
-function resetState() {
+  useEffect(() => {
+    if (editingBookmark) {
+      setForm({
+        url: editingBookmark.url,
+        title: editingBookmark.title,
+        description: editingBookmark.description || "",
+        tags: editingBookmark.tags.join(", "),
+        categoryId: editingBookmark.categoryId ? String(editingBookmark.categoryId) : ""
+      });
+    } else {
+      setForm({ ...emptyBookmarkForm });
+    }
+    setError(null);
+  }, [editingBookmark, open]);
+
+  function resetState() {
     setForm({ ...emptyBookmarkForm });
     setError(null);
     setSubmitting(false);
@@ -61,16 +81,9 @@ function resetState() {
 
   function handleOpenChange(nextOpen: boolean) {
     onOpenChange(nextOpen);
-    if (nextOpen) {
-      setForm((prev) => ({
-        ...prev,
-        categoryId: prev.categoryId || ""
-      }));
-      setError(null);
-      return;
+    if (!nextOpen) {
+      resetState();
     }
-
-    resetState();
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -85,31 +98,36 @@ function resetState() {
         selectedCategoryId !== null && Number.isInteger(selectedCategoryId) && selectedCategoryId > 0
           ? selectedCategoryId
           : null;
+      const isEditing = isEditMode && editingBookmark;
+      const endpoint = isEditing ? `/api/bookmarks/${editingBookmark.id}` : "/api/bookmarks";
+      const method = isEditing ? "PATCH" : "POST";
+      const defaultErrorMessage = isEditing ? "Failed to update bookmark" : "Failed to create bookmark";
+      const payloadBody = {
+        url: form.url,
+        title: form.title || undefined,
+        description: form.description || undefined,
+        categoryId: normalizedCategoryId,
+        tags: isEditing ? parsedTags : parsedTags.length > 0 ? parsedTags : undefined
+      };
 
-      const response = await fetch("/api/bookmarks", {
-        method: "POST",
+      const response = await fetch(endpoint, {
+        method,
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          url: form.url,
-          title: form.title || undefined,
-          description: form.description || undefined,
-          categoryId: normalizedCategoryId,
-          tags: parsedTags.length > 0 ? parsedTags : undefined
-        })
+        body: JSON.stringify(payloadBody)
       });
 
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
-        throw new Error(payload.error ?? "Failed to create bookmark");
+        throw new Error(payload.error ?? defaultErrorMessage);
       }
 
       await onSaved();
       onOpenChange(false);
       resetState();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Failed to create bookmark");
+      setError(submitError instanceof Error ? submitError.message : "Failed to save bookmark");
     } finally {
       setSubmitting(false);
     }
@@ -122,13 +140,15 @@ function resetState() {
           <DialogHeader>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <span className="material-symbols-outlined">bookmark_add</span>
+                <span className="material-symbols-outlined">bookmark</span>
               </div>
               <DialogTitle className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-                Add New Bookmark
+                {isEditMode ? "Edit Bookmark" : "Add New Bookmark"}
               </DialogTitle>
             </div>
-            <DialogDescription>Save link, category and tags in one place.</DialogDescription>
+            <DialogDescription>
+              {isEditMode ? "Update link, category and tags." : "Save link, category and tags in one place."}
+            </DialogDescription>
           </DialogHeader>
         </div>
 
@@ -243,7 +263,7 @@ function resetState() {
               type="submit"
             >
               <span className="material-symbols-outlined text-[18px]">check</span>
-              {submitting ? "Saving..." : "Save Bookmark"}
+              {submitting ? "Saving..." : isEditMode ? "Update Bookmark" : "Save Bookmark"}
             </button>
           </footer>
         </form>

@@ -10,7 +10,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 import type { BookmarkListItem } from "@/lib/db/repositories/bookmarks";
 import type { CategoryListItem } from "@/lib/db/repositories/categories";
@@ -26,15 +26,6 @@ type HomeClientProps = {
 
 type ActiveCategory = "all" | "uncategorized" | number;
 
-const iconStyles = [
-  "bg-[#282f39]",
-  "bg-[#ea4c89]",
-  "bg-black",
-  "bg-[#0A66C2]",
-  "bg-gradient-to-br from-purple-500 to-pink-500",
-  "bg-[#F24E1E]",
-  "bg-emerald-600"
-];
 const THEME_STORAGE_KEY = "bookmark-theme";
 
 function formatRelativeTime(timestamp: number) {
@@ -47,7 +38,10 @@ function formatRelativeTime(timestamp: number) {
   return `${Math.floor(seconds / 604800)}w ago`;
 }
 
-function categoryTitle(activeCategory: ActiveCategory, categories: CategoryListItem[]) {
+function categoryTitle(
+  activeCategory: ActiveCategory,
+  categories: CategoryListItem[],
+) {
   if (activeCategory === "all") {
     return "All Bookmarks";
   }
@@ -56,7 +50,10 @@ function categoryTitle(activeCategory: ActiveCategory, categories: CategoryListI
     return "Uncategorized";
   }
 
-  return categories.find((category) => category.id === activeCategory)?.name ?? "Unknown Category";
+  return (
+    categories.find((category) => category.id === activeCategory)?.name ??
+    "Unknown Category"
+  );
 }
 
 function userInitials(username: string) {
@@ -73,27 +70,43 @@ function userInitials(username: string) {
   return `${parts[0].slice(0, 1)}${parts[1].slice(0, 1)}`.toUpperCase();
 }
 
-export default function HomeClient({ initialBookmarks, initialCategories, user }: HomeClientProps) {
+export default function HomeClient({
+  initialBookmarks,
+  initialCategories,
+  user,
+}: HomeClientProps) {
   const router = useRouter();
 
-  const [bookmarks, setBookmarks] = useState<BookmarkListItem[]>(initialBookmarks);
-  const [categories, setCategories] = useState<CategoryListItem[]>(initialCategories);
+  const [bookmarks, setBookmarks] =
+    useState<BookmarkListItem[]>(initialBookmarks);
+  const [categories, setCategories] =
+    useState<CategoryListItem[]>(initialCategories);
   const [activeCategory, setActiveCategory] = useState<ActiveCategory>("all");
   const [bookmarkModalOpen, setBookmarkModalOpen] = useState(false);
+  const [editingBookmark, setEditingBookmark] =
+    useState<BookmarkListItem | null>(null);
 
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
-  const [categoryModalMode, setCategoryModalMode] = useState<"create" | "edit">("create");
-  const [editingCategoryId, setEditingCategoryId] = useState<number | null>(null);
+  const [categoryModalMode, setCategoryModalMode] = useState<"create" | "edit">(
+    "create",
+  );
+  const [editingCategoryId, setEditingCategoryId] = useState<number | null>(
+    null,
+  );
   const [categoryName, setCategoryName] = useState("");
   const [categorySubmitting, setCategorySubmitting] = useState(false);
   const [categoryError, setCategoryError] = useState<string | null>(null);
 
   const [globalError, setGlobalError] = useState<string | null>(null);
-  const [categoryToDelete, setCategoryToDelete] = useState<CategoryListItem | null>(null);
-  const [categoryDeleteSubmitting, setCategoryDeleteSubmitting] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] =
+    useState<CategoryListItem | null>(null);
+  const [categoryDeleteSubmitting, setCategoryDeleteSubmitting] =
+    useState(false);
   const [bookmarkMenuId, setBookmarkMenuId] = useState<number | null>(null);
-  const [bookmarkToDelete, setBookmarkToDelete] = useState<BookmarkListItem | null>(null);
-  const [bookmarkDeleteSubmitting, setBookmarkDeleteSubmitting] = useState(false);
+  const [bookmarkToDelete, setBookmarkToDelete] =
+    useState<BookmarkListItem | null>(null);
+  const [bookmarkDeleteSubmitting, setBookmarkDeleteSubmitting] =
+    useState(false);
   const [logoutSubmitting, setLogoutSubmitting] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
@@ -104,7 +117,7 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
   const uncategorizedCount = useMemo(
     () => bookmarks.filter((item) => item.categoryId === null).length,
-    [bookmarks]
+    [bookmarks],
   );
 
   const filteredBookmarks = useMemo(() => {
@@ -122,7 +135,7 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
   async function reloadData() {
     const [bookmarksResponse, categoriesResponse] = await Promise.all([
       fetch("/api/bookmarks", { cache: "no-store" }),
-      fetch("/api/categories", { cache: "no-store" })
+      fetch("/api/categories", { cache: "no-store" }),
     ]);
 
     const bookmarksPayload = (await bookmarksResponse.json()) as {
@@ -172,15 +185,17 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
     try {
       const isEdit = categoryModalMode === "edit" && editingCategoryId !== null;
-      const endpoint = isEdit ? `/api/categories/${editingCategoryId}` : "/api/categories";
+      const endpoint = isEdit
+        ? `/api/categories/${editingCategoryId}`
+        : "/api/categories";
       const method = isEdit ? "PATCH" : "POST";
 
       const response = await fetch(endpoint, {
         method,
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: categoryName })
+        body: JSON.stringify({ name: categoryName }),
       });
 
       const payload = (await response.json()) as { error?: string };
@@ -192,7 +207,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
       setCategoryModalOpen(false);
       setCategoryName("");
     } catch (error) {
-      setCategoryError(error instanceof Error ? error.message : "Failed to save category");
+      setCategoryError(
+        error instanceof Error ? error.message : "Failed to save category",
+      );
     } finally {
       setCategorySubmitting(false);
     }
@@ -216,7 +233,7 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
     try {
       const response = await fetch(`/api/categories/${categoryToDelete.id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       const payload = (await response.json()) as { error?: string };
@@ -230,7 +247,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
       }
       setCategoryToDelete(null);
     } catch (error) {
-      setGlobalError(error instanceof Error ? error.message : "Failed to delete category");
+      setGlobalError(
+        error instanceof Error ? error.message : "Failed to delete category",
+      );
     } finally {
       setCategoryDeleteSubmitting(false);
     }
@@ -250,7 +269,7 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
     try {
       const response = await fetch(`/api/bookmarks/${bookmarkToDelete.id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
@@ -260,9 +279,10 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
       await reloadData();
       setBookmarkToDelete(null);
     } catch (error) {
-      setGlobalError(error instanceof Error ? error.message : "Failed to delete bookmark");
-    }
-    finally {
+      setGlobalError(
+        error instanceof Error ? error.message : "Failed to delete bookmark",
+      );
+    } finally {
       setBookmarkDeleteSubmitting(false);
     }
   }
@@ -281,7 +301,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
       router.push("/login");
       router.refresh();
     } catch (error) {
-      setGlobalError(error instanceof Error ? error.message : "Failed to logout");
+      setGlobalError(
+        error instanceof Error ? error.message : "Failed to logout",
+      );
       setLogoutSubmitting(false);
     }
   }
@@ -304,13 +326,17 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
         <aside className="z-20 flex w-full shrink-0 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-[#111418] md:w-64 lg:w-72">
           <div className="flex items-center gap-3 border-b border-slate-200 p-6 dark:border-slate-800">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
-              <span className="material-symbols-outlined text-[20px]">bookmarks</span>
+              <span className="material-symbols-outlined text-[20px]">
+                bookmarks
+              </span>
             </div>
             <span className="text-lg font-bold tracking-tight">Bookmarker</span>
           </div>
 
           <div className="custom-scrollbar flex-1 overflow-y-auto p-4">
-            <p className="mb-4 px-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Library</p>
+            <p className="mb-4 px-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+              Library
+            </p>
             <nav className="space-y-1">
               <button
                 className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
@@ -321,9 +347,13 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                 onClick={() => setActiveCategory("all")}
                 type="button"
               >
-                <span className="material-symbols-outlined text-[20px]">inbox</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  inbox
+                </span>
                 <span>All Bookmarks</span>
-                <span className="ml-auto rounded-full bg-primary px-2 py-0.5 text-xs text-white">{bookmarks.length}</span>
+                <span className="ml-auto rounded-full bg-primary px-2 py-0.5 text-xs text-white">
+                  {bookmarks.length}
+                </span>
               </button>
 
               <button
@@ -335,21 +365,28 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                 onClick={() => setActiveCategory("uncategorized")}
                 type="button"
               >
-                <span className="material-symbols-outlined text-[20px]">question_mark</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  question_mark
+                </span>
                 <span>Uncategorized</span>
-                <span className="ml-auto rounded-full bg-slate-100 px-2 py-0.5 text-xs dark:bg-slate-800">{uncategorizedCount}</span>
+                <span className="ml-auto rounded-full bg-slate-100 px-2 py-0.5 text-xs dark:bg-slate-800">
+                  {uncategorizedCount}
+                </span>
               </button>
-
             </nav>
 
             <div className="mb-4 mt-8 flex items-center justify-between px-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Categories</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                Categories
+              </p>
               <button
                 className="rounded p-1 text-slate-500 transition-colors hover:text-primary"
                 onClick={openCreateCategoryModal}
                 type="button"
               >
-                <span className="material-symbols-outlined text-[18px]">add</span>
+                <span className="material-symbols-outlined text-[18px]">
+                  add
+                </span>
               </button>
             </div>
 
@@ -361,7 +398,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                   <div
                     key={category.id}
                     className={`flex items-center gap-2 rounded-lg px-2 py-1 ${
-                      activeCategory === category.id ? "bg-primary/10" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                      activeCategory === category.id
+                        ? "bg-primary/10"
+                        : "hover:bg-slate-100 dark:hover:bg-slate-800"
                     }`}
                   >
                     <button
@@ -373,7 +412,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                       onClick={() => setActiveCategory(category.id)}
                       type="button"
                     >
-                      <span className="material-symbols-outlined text-[20px]">folder</span>
+                      <span className="material-symbols-outlined text-[20px]">
+                        folder
+                      </span>
                       <span className="truncate">{category.name}</span>
                       <span
                         className={`ml-auto rounded-full px-2 py-0.5 text-xs ${
@@ -387,11 +428,13 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                     </button>
 
                     <button
-                      className="rounded p-1 text-slate-400 transition-colors hover:text-slate-100"
+                      className="rounded p-1 text-slate-400 transition-colors hover:text-red-400"
                       onClick={() => openEditCategoryModal(category)}
                       type="button"
                     >
-                      <span className="material-symbols-outlined text-[18px]">edit</span>
+                      <span className="material-symbols-outlined text-[18px]">
+                        edit
+                      </span>
                     </button>
 
                     <div className="group relative">
@@ -405,7 +448,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                         onClick={() => openDeleteCategoryDialog(category)}
                         type="button"
                       >
-                        <span className="material-symbols-outlined text-[18px]">delete</span>
+                        <span className="material-symbols-outlined text-[18px]">
+                          delete
+                        </span>
                       </button>
                       {category.bookmarkCount > 0 ? (
                         <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-52 rounded-md bg-slate-900 px-2 py-1.5 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 dark:bg-slate-700">
@@ -428,7 +473,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                 <p className="truncate text-sm font-medium text-slate-900 dark:text-white">
                   {user.username}
                 </p>
-                <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user.email}</p>
+                <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                  {user.email}
+                </p>
               </div>
               <button
                 className="inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-60 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
@@ -437,7 +484,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                 title="Logout"
                 type="button"
               >
-                <span className="material-symbols-outlined text-[18px]">logout</span>
+                <span className="material-symbols-outlined text-[18px]">
+                  logout
+                </span>
               </button>
             </div>
           </div>
@@ -451,7 +500,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
               </h1>
               <div className="group relative w-full max-w-md md:w-96">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="material-symbols-outlined text-[20px] text-slate-400">search</span>
+                  <span className="material-symbols-outlined text-[20px] text-slate-400">
+                    search
+                  </span>
                 </div>
                 <input
                   className="block w-full rounded-lg border-0 bg-slate-100 py-2 pl-10 text-slate-900 placeholder:text-slate-400 transition-all focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:text-white"
@@ -465,7 +516,11 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
               <button
                 className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                 onClick={toggleTheme}
-                title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                title={
+                  theme === "dark"
+                    ? "Switch to light mode"
+                    : "Switch to dark mode"
+                }
                 type="button"
               >
                 <span className="material-symbols-outlined text-[20px]">
@@ -475,10 +530,15 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
               <button
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-600"
-                onClick={() => setBookmarkModalOpen(true)}
+                onClick={() => {
+                  setEditingBookmark(null);
+                  setBookmarkModalOpen(true);
+                }}
                 type="button"
               >
-                <span className="material-symbols-outlined text-[20px]">add</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  add
+                </span>
                 <span className="hidden sm:inline">Add Bookmark</span>
               </button>
             </div>
@@ -486,7 +546,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
           <main className="custom-scrollbar flex-1 overflow-y-auto p-6">
             <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-slate-500 dark:text-slate-400">{filteredBookmarks.length} bookmarks</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                {filteredBookmarks.length} bookmarks
+              </p>
             </div>
 
             {globalError ? (
@@ -496,30 +558,68 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
             ) : null}
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredBookmarks.map((bookmark, index) => (
+              {filteredBookmarks.map((bookmark) => (
                 <article
                   key={bookmark.id}
-                  className="group relative flex flex-col justify-between rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:border-primary/50 hover:shadow-md dark:border-slate-800 dark:bg-[#161b22]"
+                  className="group relative flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:border-primary/50 hover:shadow-md dark:border-slate-800 dark:bg-[#161b22]"
+                  onClick={() => window.open(bookmark.url, "_blank")}
                 >
-                  <div className="p-5">
-                    <div className="mb-4 flex items-start justify-between">
-                      <div
-                        className={`flex h-12 w-12 flex-none items-center justify-center rounded-lg text-white ring-1 ring-slate-900/5 dark:ring-white/10 ${iconStyles[index % iconStyles.length]}`}
-                      >
-                        <span className="material-symbols-outlined">bookmark</span>
+                  <div className="cursor-pointer select-none p-5">
+                    <div className="mb-3 flex items-start justify-between">
+                      <div className="flex min-w-0 flex-1 items-center gap-3">
+                        <div className="flex flex-none items-center justify-center">
+                          <img
+                            alt=""
+                            className="h-6 w-6 rounded-sm object-contain"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = "none";
+                              target.nextElementSibling?.classList.remove(
+                                "hidden",
+                              );
+                            }}
+                            src={`https://www.google.com/s2/favicons?domain=${new URL(bookmark.url).hostname}&sz=64`}
+                          />
+                          <span className="material-symbols-outlined hidden text-lg text-slate-400">
+                            bookmark
+                          </span>
+                        </div>
+                        <h3 className="truncate text-base font-semibold text-slate-900 transition-colors group-hover:text-primary dark:text-white">
+                          {bookmark.title}
+                        </h3>
                       </div>
-                      <div className="relative">
+                      <div
+                        className="relative ml-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <button
                           className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                           onClick={() =>
-                            setBookmarkMenuId((current) => (current === bookmark.id ? null : bookmark.id))
+                            setBookmarkMenuId((current) =>
+                              current === bookmark.id ? null : bookmark.id,
+                            )
                           }
                           type="button"
                         >
-                          <span className="material-symbols-outlined text-[20px]">more_horiz</span>
+                          <span className="material-symbols-outlined text-[20px]">
+                            more_horiz
+                          </span>
                         </button>
                         {bookmarkMenuId === bookmark.id ? (
                           <div className="absolute right-0 top-8 z-10 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-[#1a2330]">
+                            <button
+                              aria-label="Edit bookmark"
+                              className="flex h-9 w-9 items-center justify-center rounded-md text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                              onClick={() => {
+                                setBookmarkMenuId(null);
+                                setEditingBookmark(bookmark);
+                              }}
+                              type="button"
+                            >
+                              <span className="material-symbols-outlined text-[18px]">
+                                edit
+                              </span>
+                            </button>
                             <button
                               aria-label="Delete bookmark"
                               className="flex h-9 w-9 items-center justify-center rounded-md text-red-600 transition-colors hover:bg-slate-100 dark:text-red-300 dark:hover:bg-slate-800"
@@ -529,37 +629,27 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
                               }}
                               type="button"
                             >
-                              <span className="material-symbols-outlined text-[18px]">delete</span>
+                              <span className="material-symbols-outlined text-[18px]">
+                                delete
+                              </span>
                             </button>
                           </div>
                         ) : null}
                       </div>
                     </div>
 
-                    <h3 className="text-base font-semibold text-slate-900 transition-colors group-hover:text-primary dark:text-white">
-                      {bookmark.title}
-                    </h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
+                    <p className="mb-2 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
                       {bookmark.description || "No description."}
                     </p>
-                    <a
-                      className="mt-2 inline-block w-full truncate text-xs text-slate-400 hover:text-primary hover:underline"
-                      href={bookmark.url}
-                    >
+                    <p className="truncate text-xs text-slate-400">
                       {bookmark.url.replace(/^https?:\/\//, "")}
-                    </a>
+                    </p>
                   </div>
 
-                  <div className="flex items-center justify-between rounded-b-xl border-t border-slate-100 bg-slate-50/50 px-5 py-3 dark:border-slate-800/50 dark:bg-slate-800/20">
-                    <span className="text-xs text-slate-400">{formatRelativeTime(bookmark.createdAt)}</span>
-                    <a
-                      className="text-xs font-medium text-primary hover:text-primary/80"
-                      href={bookmark.url}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      Launch
-                    </a>
+                  <div className="rounded-b-xl border-t border-slate-100 bg-slate-50/50 px-5 py-3 dark:border-slate-800/50 dark:bg-slate-800/20">
+                    <span className="text-xs text-slate-400">
+                      {formatRelativeTime(bookmark.createdAt)}
+                    </span>
                   </div>
                 </article>
               ))}
@@ -570,7 +660,13 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
       <AddBookmarkDialog
         categories={categories}
-        onOpenChange={setBookmarkModalOpen}
+        editingBookmark={editingBookmark}
+        onOpenChange={(open) => {
+          setBookmarkModalOpen(open);
+          if (!open) {
+            setEditingBookmark(null);
+          }
+        }}
         onSaved={reloadData}
         open={bookmarkModalOpen}
       />
@@ -634,7 +730,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
               <DialogTitle className="text-lg font-bold text-slate-900 dark:text-white">
                 Delete Bookmark
               </DialogTitle>
-              <DialogDescription>This operation cannot be undone.</DialogDescription>
+              <DialogDescription>
+                This operation cannot be undone.
+              </DialogDescription>
             </DialogHeader>
           </div>
           <div className="px-6 py-5">
@@ -667,7 +765,9 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
           <section className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-[#151c26]">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-              {categoryModalMode === "create" ? "Add Category" : "Rename Category"}
+              {categoryModalMode === "create"
+                ? "Add Category"
+                : "Rename Category"}
             </h2>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               {categoryModalMode === "create"
@@ -677,7 +777,10 @@ export default function HomeClient({ initialBookmarks, initialCategories, user }
 
             <form className="mt-4 space-y-4" onSubmit={handleCategorySubmit}>
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="category-name-input">
+                <label
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                  htmlFor="category-name-input"
+                >
                   Category Name
                 </label>
                 <input
